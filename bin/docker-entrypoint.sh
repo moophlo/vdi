@@ -40,7 +40,7 @@ set_property_in_file() {
 	fi
 }
 
-#standalone-full.xml
+# ldap variables
 set_property_in_file /etc/krb5.conf "AD_REALM" $AD_REALM
 set_property_in_file /etc/samba/smb.conf "AD_REALM" $AD_REALM
 set_property_in_file /etc/samba/smb.conf "AD_DOMAIN" $AD_DOMAIN
@@ -120,25 +120,25 @@ fi
 uuidgen > /etc/machine-id
 
 # join domain
-echo "Join Domain"
-#apt update
-#apt install winbind dnsutils net-tools samba samba-common winbind libpam-winbind libnss-winbind krb5-config samba-dsdb-modules samba-vfs-modules cifs-utils -yy
-pam-auth-update --force
+# to join your ldap domain uncomment lines below
+
+#echo "Join Domain"
+#pam-auth-update --force
 #net ads join -U $AD_USER%$AD_PASSWORD -S $DEFAULT_REALM
 #service winbind restart
 #service dbus restart
+## Add .xsession to ldap users
+#echo "Aggiungo la configurazione di .Xsession per ldap users"
+#sed -i '/^test -x.*/i echo xfce4-session > ~/.Xsession' /etc/xrdp/startwm.sh
+#sed -i '/^echo xfce4-session.*/i unset DBUS_SESSION_BUS_ADDRESS' /etc/xrdp/startwm.sh
+#sed -i '/^unset DBUS_SESSION_BUS_ADDRESS/i unset XDG_RUNTIME_DIR' /etc/xrdp/startwm.sh
+#sed -i 's/thinclient_drives/shared-drive/g' /etc/xrdp/sesman.ini
 
 
 adduser xrdp ssl-cert
 
 
-# Add .xsession to ldap users
-echo "Aggiungo la configurazione di .Xsession per ldap users"
 
-sed -i '/^test -x.*/i echo xfce4-session > ~/.Xsession' /etc/xrdp/startwm.sh
-sed -i '/^echo xfce4-session.*/i unset DBUS_SESSION_BUS_ADDRESS' /etc/xrdp/startwm.sh
-sed -i '/^unset DBUS_SESSION_BUS_ADDRESS/i unset XDG_RUNTIME_DIR' /etc/xrdp/startwm.sh
-sed -i 's/thinclient_drives/shared-drive/g' /etc/xrdp/sesman.ini
 
 
 sed -i '/PASSWORD=${PASSWORD:="XeF5jW7qbneXjawd"}/d' /usr/bin/docker-entrypoint.sh
