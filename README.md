@@ -1,7 +1,5 @@
-vdi-sviluppo
+# vdi
 ===============
-
-VDI di servizio per gli sviluppatori
 
 Questo progetto si basa su quello di Daniel Guerra: danielguerra/ubuntu-xrdp sul Docker Hub, https://github.com/danielguerra69/ubuntu-xrdp
 
@@ -52,4 +50,4 @@ $6$... SHA512
 
 Sono previste le variabili d'ambiente CMD1...CMD10 con cui si possono specificare ulteriori comandi, incluse installazioni di pacchetti.
 Qualora in una di queste variabili fosse predente la stringa "apt", l'entrypoint eseguirà automaticamente un "apt update" prima di eseguire il resto.
-# vdi
+
