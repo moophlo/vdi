@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 MAINTAINER Andrea Odorisio
 
@@ -49,26 +49,61 @@ RUN apt update && apt -y full-upgrade && apt install -y \
   dirmngr \
   gnupg \
   software-properties-common \
+  default-jre \
+  git \
+  python3 \
+  openjdk-8-jre \
+  curl \
+  winbind \
+  dnsutils \
+  net-tools \
+  samba-common \
+  winbind \
+  libpam-winbind \
+  libnss-winbind \
+  krb5-config \
+  samba-dsdb-modules \
+  samba-vfs-modules \
+  cifs-utils \
+  policykit-1-gnome \
+  gtk2-engines-pixbuf \
+  pm-utils \
+  smbclient \
+  openjdk-11-jre \
+  dbeaver-ce \
+  geany \
+  dirmngr \
+  telnet \
+  netcat \
   $ADDITIONAL_PACKAGES \
   && \
   rm -rf /var/cache/apt /var/lib/apt/lists && \
   mkdir -p /var/lib/xrdp-pulseaudio-installer
 
-
-RUN wget https://downloads.mongodb.com/compass/mongodb-compass_1.28.1_amd64.deb
-RUN dpkg --ignore-depends=mongodb-compass_1.28.1_amd64.deb  -i mongodb-compass_1.28.1_amd64.deb
+### INSTALL MONGODB COMPASS ###
+RUN wget https://downloads.mongodb.com/compass/mongodb-compass_1.31.2_amd64.deb
+RUN dpkg --ignore-depends=mongodb-compass_1.31.2_amd64.deb  -i mongodb-compass_1.31.2_amd64.deb
 #RUN sed -i 's/Exec=mongodb-compass %U/Exec=mongodb-compass --no-sandbox %U/g' /usr/share/applications/mongodb-compass.desktop
-RUN rm mongodb-compass_1.28.1_amd64.deb
+RUN rm mongodb-compass_1.31.2_amd64.deb
 RUN apt --fix-broken install -y
+
+### INSTALL SUBLIME TEXT REPO ###
 RUN curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 RUN sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+
+### INSTALL MICROSOFT REPO ###
 RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 RUN install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-RUN sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+RUN sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 RUN rm -f packages.microsoft.gpg
+
+### INSTALL VSCODE E SUBLIME ###
 RUN apt update
-RUN apt install code sublime-text geany -y
+RUN apt install code sublime-text -y
 RUN apt --fix-broken install -y
+
+### INSTALL ECLIPSE ###
+run snap install --classic eclipse
 
 ADD bin /usr/bin
 ADD etc /etc
