@@ -6,7 +6,7 @@ RUN apt update && apt -y full-upgrade && apt install -y wget gnupg gnupg2
 RUN wget https://dbeaver.io/debs/dbeaver.gpg.key
 RUN apt-key add ./dbeaver.gpg.key
 RUN echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
-ARG ADDITIONAL_PACKAGES="git python3 openjdk-8-jdk curl winbind dnsutils net-tools samba-common winbind libpam-winbind libnss-winbind krb5-config samba-dsdb-modules samba-vfs-modules cifs-utils policykit-1-gnome gtk2-engines-pixbuf pm-utils smbclient openjdk-11-jdk openjdk-11-jre dbeaver-ce geany curl dirmngr gnupg apt-transport-https ca-certificates software-properties-common telnet netcat"
+ARG ADDITIONAL_PACKAGES=""
 ENV ADDITIONAL_PACKAGES=${ADDITIONAL_PACKAGES}
 
 ENV DEBIAN_FRONTEND noninteractive
